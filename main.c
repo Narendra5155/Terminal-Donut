@@ -100,10 +100,11 @@ int main(){
     Resetbuffer(&buff1);
 
     SetConsoleMode(stdHand,newMode);
-    HANDLE console=CreateConsoleScreenBuffer(GENERIC_READ|GENERIC_WRITE,0,NULL,CONSOLE_TEXTMODE_BUFFER,NULL);
+    HANDLE console=CreateConsoleScreenBuffer(GENERIC_READ|GENERIC_WRITE,FILE_SHARE_WRITE|FILE_SHARE_READ,NULL,CONSOLE_TEXTMODE_BUFFER,NULL);
     DWORD conMode=ENABLE_EXTENDED_FLAGS|ENABLE_MOUSE_INPUT|ENABLE_WINDOW_INPUT|ENABLE_PROCESSED_INPUT;
     SetConsoleMode(console,conMode);
     SetConsoleActiveScreenBuffer(console);
+    //WINBOOL han=SetStdHandle(STD_INPUT_HANDLE,console);
     COORD origin={0,0};
     DWORD wordswritten,num;
     INPUT_RECORD inRecord[128];
