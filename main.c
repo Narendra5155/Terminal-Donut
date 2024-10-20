@@ -28,7 +28,7 @@ float K=100;
 float horizontal_offset=0;
 float vertical_offset=0;
 int L_len=5;
-wchar_t map[9]=L" ░▒▓█";
+wchar_t map[50]=L" ░▒▓█";
 
 //X axis Rotation Calculation function(Matrix multipication)
 float calcX(float x,float y,float z,TrigRaito *pre){
@@ -72,6 +72,13 @@ void Resetbuffer(Buffer *buf){
     int size=buf->h*buf->w;
     memset(buf->zbuff,0,size*sizeof(float));
     wmemset(buf->buff,background,size);
+}
+static inline void printtoScreen(const wchar_t *str, wchar_t *screen)
+{
+    int n = wcslen(str);
+    for (int i = 0; i < n ;i++){
+        screen[i] = str[i];
+    }
 }
 
 int main(){
@@ -294,20 +301,32 @@ int main(){
                 A+=1*deltatime;
                 B+=2*deltatime;
                 C+=0.4*deltatime;
-                swprintf(Screen,swidth*sheight,L"[FPS : %5d]",(int)(1/deltatime));
-                swprintf(Screen+swidth,swidth*sheight,L"[Press R to Refresh]");
-                swprintf(Screen+swidth*2,swidth*sheight,L"[Press P to Pause]");
-                swprintf(Screen+swidth*3,swidth*sheight,L"[Press Space to Exit]");
+                wchar_t out[100];
+                swprintf(out, 100, L"[FPS : %5d]", (int)(1 / deltatime));
+                printtoScreen(out, Screen + 0 * swidth);
+                swprintf(out,100,L"[Press R to Refresh]");
+                printtoScreen(out, Screen + 1 * swidth);
+                swprintf(out,100,L"[Press P to Pause]");
+                printtoScreen(out, Screen + 2 * swidth);
             }
             else{
-                swprintf(Screen+swidth*0,swidth*sheight,L"[X Rotation : %5.2f°,S-W]",A*radtoDEG);
-                swprintf(Screen+swidth*1,swidth*sheight,L"[Y Rotation : %5.2f°,A-D]",B*radtoDEG);
-                swprintf(Screen+swidth*2,swidth*sheight,L"[Z Rotation : %5.2f°,Q-E]",C*radtoDEG);
-                swprintf(Screen+swidth*3,swidth*sheight,L"[K value    : %5.2f ,J-K]",K);
-                swprintf(Screen+swidth*4,swidth*sheight,L"[Camera     : %5.2f ,C-V]",distance);
-                swprintf(Screen+swidth*5,swidth*sheight,L"[FPS        : %5d     ]",(int)(1/deltatime));
-                swprintf(Screen+swidth*6,swidth*sheight,L"[R1:%3.2f  R2:%3.2f,N-M,Y-U]",R1,R2);
-                swprintf(Screen+swidth*7,swidth*sheight,L"[Press P to Resume      ]");
+                wchar_t out[100];
+                swprintf(out,100,L"[X Rotation : %5.2f°,S-W]",A*radtoDEG);
+                printtoScreen(out,Screen+0*swidth);
+                swprintf(out,100,L"[Y Rotation : %5.2f°,A-D]",B*radtoDEG);
+                printtoScreen(out,Screen+1*swidth);
+                swprintf(out,100,L"[Z Rotation : %5.2f°,Q-E]",C*radtoDEG);
+                printtoScreen(out,Screen+2*swidth);
+                swprintf(out,100,L"[K value    : %5.2f ,J-K]",K);
+                printtoScreen(out,Screen+3*swidth);
+                swprintf(out,100,L"[Camera     : %5.2f ,C-V]",distance);
+                printtoScreen(out,Screen+4*swidth);
+                swprintf(out,100,L"[FPS        : %5d     ]",(int)(1/deltatime));
+                printtoScreen(out,Screen+5*swidth);
+                swprintf(out,100,L"[R1:%3.2f  R2:%3.2f,N-M,Y-U]",R1,R2);
+                printtoScreen(out,Screen+6*swidth);
+                swprintf(out,100,L"[Press P to Resume      ]");
+                printtoScreen(out,Screen+7*swidth);
             }
             WriteConsoleOutputCharacterW(console,Screen,swidth*sheight,origin,&wordswritten);
 
