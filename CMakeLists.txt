@@ -1,7 +1,16 @@
 cmake_minimum_required(VERSION 3.10...3.31)
 project(Donut VERSION 0.1.0 LANGUAGES C)
 
-add_executable(Donut main.c)
+add_executable(Donut main.c icon.rc)
+set (CPACK_NSIS_MODIFY_PATH "ON")
+install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION bin)
+
+set(CPACK_PACKAGE_EXECUTABLES ${PROJECT_NAME};Donut)
+set(CPACK_CREATE_DESKTOP_LINKS ${PROJECT_NAME})
+
+set(CPACK_NSIS_MUI_ICON "${CMAKE_CURRENT_SOURCE_DIR}\\\\donut.ico")
+set(CPACK_PACKAGE_VENDOR Narendra)
+
 
 include(CTest)
 enable_testing()
