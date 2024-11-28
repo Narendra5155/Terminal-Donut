@@ -350,6 +350,21 @@ int main()
             swprintf(out, 100, L"[Press P to Resume      ]");
             printtoScreen(out, Screen + 7 * swidth);
         }
+        // Keep the value of rotation angle within bounds
+
+        if (A > Twopi)
+            A -= Twopi;
+        if (B > Twopi)
+            B -= Twopi;
+        if (C > Twopi)
+            C -= Twopi;
+        if (A < 0)
+            A = Twopi;
+        if (B < 0)
+            B = Twopi;
+        if (C < 0)
+            C = Twopi;
+
         WriteConsoleOutputCharacterW(console, Screen, swidth * sheight, origin, &wordswritten);
 
         QueryPerformanceCounter(&end);
